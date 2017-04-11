@@ -1,0 +1,5 @@
+[package]
+
+name = "rustrest"
+version = "0.0.1"
+authors = ["Glyn Normington <gnormington@pivotal.io>"]
