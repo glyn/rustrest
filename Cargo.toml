@@ -2,4 +2,10 @@
 
 name = "rustrest"
 version = "0.0.1"
-authors = ["Glyn Normington <gnormington@pivotal.io>"]
+authors = ["Glyn Normington <glyn.normington@gmail.com>"]
+
+[dependencies]
+hyper = "0.10.7"
+futures = "0.1.13"
+tokio-core = "0.1.6"
+pretty_env_logger = "0.1.0"
