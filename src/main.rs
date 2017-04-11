@@ -1,9 +1,12 @@
 extern crate hyper;
+extern crate hyper_native_tls;
 
 use std::env;
 use std::io::Read;
 use hyper::Client;
 use hyper::client::response::Response;
+use hyper_native_tls::NativeTlsClient;
+use hyper::net::HttpsConnector;
 
 fn main() {
     let url = match env::args().nth(1) {
@@ -15,12 +18,10 @@ fn main() {
     };
 
     let url = url.parse::<hyper::Url>().unwrap();
-    if url.scheme() != "http" {
-        println!("This example only works with 'http' URLs.");
-        return;
-    }
-
-    let client = Client::new();
+    
+    let ssl = NativeTlsClient::new().unwrap();
+    let connector = HttpsConnector::new(ssl);
+    let client = Client::with_connector(connector);
 
     let result = client.get(url).send().and_then(|res| {
         println!("Response: {}", res.status);
@@ -28,8 +29,8 @@ fn main() {
         read_to_string(res)
     }).map(|s| {
         println!("Response body: {}", s);
-        println!("\n\nDone.");
     });
+    
     match result {
         Ok(_) => println!("\n\nDone."),
         Err(e) => println!("\n\nFailed {:?}", e),
