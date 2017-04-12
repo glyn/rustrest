@@ -23,7 +23,7 @@ fn main() {
     let connector = HttpsConnector::new(ssl);
     let client = Client::with_connector(connector);
 
-    let result = client.get(url).send().and_then(|res| {
+    let result = client.get(url).header().send().and_then(|res| {
         println!("Response: {}", res.status);
         println!("Headers: \n{}", res.headers);
         read_to_string(res)
